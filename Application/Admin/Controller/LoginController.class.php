@@ -4,10 +4,19 @@ use Think\Controller;
 class LoginController extends Controller {
 	public function index($backurl='.')
 	{
-		$this->success('新增成功', $backurl);
+		$this->show();
 	}
-	public function dologin($backurl='.')
+
+	public function dologin()
 	{
-		setcookie("userid",123);
+		$Admin = D('Admin');
+		if (!$Admin->create())
+		{
+			$this->error($Admin->getError());
+		}
+		else{
+			$this->success("123",U("Index/index"));
+			//$this->success('新增成功', 'Index/Index');
+		}
 	}
 }
