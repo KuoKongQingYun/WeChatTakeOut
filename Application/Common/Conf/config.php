@@ -9,4 +9,5 @@ return array(
 	'DB_PREFIX' => 'wcta_', // 数据库表前缀 
 	'DB_CHARSET'=> 'utf8', // 字符集
 	//'配置项'=>'配置值'
+	'DB_FIELDS_CACHE'=>false
 );

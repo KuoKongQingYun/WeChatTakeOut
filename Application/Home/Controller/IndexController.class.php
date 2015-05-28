@@ -2,7 +2,110 @@
 namespace Home\Controller;
 use Think\Controller;
 class IndexController extends Controller {
-    public function index(){
-        $this->show('<style type="text/css">*{ padding: 0; margin: 0; } div{ padding: 4px 48px;} body{ background: #fff; font-family: "微软雅黑"; color: #333;font-size:24px} h1{ font-size: 100px; font-weight: normal; margin-bottom: 12px; } p{ line-height: 1.8em; font-size: 36px } a,a:hover,{color:blue;}</style><div style="padding: 24px 48px;"> <h1>:)</h1><p>欢迎使用 <b>ThinkPHP</b>！</p><br/>版本 V{$Think.version}</div><script type="text/javascript" src="http://ad.topthink.com/Public/static/client.js"></script><thinkad id="ad_55e75dfae343f5a1"></thinkad><script type="text/javascript" src="http://tajs.qq.com/stats?sId=9347272" charset="UTF-8"></script>','utf-8');
-    }
+	private function userInit(){
+		$wxid = I('get.wxid');
+		$wxid = $wxid==""?I('cookie.wxid'):$wxid;
+		if($wxid=="")
+		{
+			exit("请从微信访问！");
+		}
+		else
+		{
+			cookie('wxid',$wxid);
+			$user=M('user');
+			$selectUser=$user->where(array("wxid"=>$wxid))->select();
+			if(count($selectUser)==0)
+			{
+				$this->redirect('/Index/user');
+			}
+			return $selectUser[0];
+		}
+	}
+	private function categoryInit(){
+		
+		$category=M('category');
+		$selectCategory=$category->select();
+		$this->assign('categoryList',$selectCategory);
+		return $selectCategory;
+	}
+
+	public function index(){
+		$this->categoryInit();
+		$currentUser=$this->userInit();
+		$userName=$currentUser['name'];
+
+		$item=M('item');
+		$selectItem=$item->select();
+		$this->assign('itemList',$selectItem);
+	    $this->display();
+	}
+	public function category(){
+		$this->categoryInit();
+		$currentUser=$this->userInit();
+		if(I('get.id')=="")
+		{
+			$this->redirect('index');
+		}
+		$category=M('category');
+		$currentCategory=$category->where(array('id'=>I('get.id')))->find();
+		$this->assign('categoryname',$currentCategory['name']);
+
+		$item=M('item');
+		$selectItem=$item->where(array('category'=>I('get.id')))->select();
+		$this->assign('itemList',$selectItem);
+
+		$this->display();
+	}
+	public function user(){
+		$this->categoryInit();
+		$wxid = I('get.wxid');
+		$wxid = $wxid==""?I('cookie.wxid'):$wxid;
+		if($wxid=="")
+		{
+			exit("请从微信访问！");
+		}
+		else
+		{
+			cookie('wxid',$wxid);
+			$user=M('user');
+			$selectUser=$user->where(array("wxid"=>$wxid))->select();
+			if(count($selectUser)==0)
+			{
+				$user->create(array('name' =>I('name'),'phone' =>I('phone') ,'address' =>I('address'),'wxid' =>$wxid));
+				$user->add();
+			}
+			else
+			{
+				$currentUser=$selectUser[0];
+				if(IS_POST)
+				{
+					$user->create(array('id'=>$currentUser['id'],'name' =>I('name'),'phone' =>I('phone') ,'address' =>I('address'),'wxid' =>$wxid));
+				$user->save();
+				$this->assign('name',I('name'));
+				$this->assign('phone',I('phone'));
+				$this->assign('address',I('address'));
+				$this->assign('info','保存成功');
+				}
+				else 
+				{
+					$this->assign('name',$currentUser['name']);
+				$this->assign('phone',$currentUser['phone']);
+				$this->assign('address',$currentUser['address']);
+				}
+			}
+			$this->display();
+		}
+	}
+	public function cheakout(){
+		$wxid = I('get.wxid');
+		$wxid = $wxid==""?I('cookie.wxid'):$wxid;
+		if($wxid=="")
+		{
+			exit("请从微信访问！");
+		}
+		else
+		{
+
+		}
+	}
 }
