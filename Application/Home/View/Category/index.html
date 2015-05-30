@@ -1,14 +1,16 @@
 <include file="Template:head" />
+
   <!-- content start -->
   <div class="admin-content">
 
     <div class="am-cf am-padding">
-      <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">网站首页</strong></div>
+      <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">{$categoryname}</strong></div>
     </div>
+
     <ul class="am-avg-sm-2 am-avg-md-4 am-avg-lg-6 am-margin gallery-list">
       <volist name="itemList" id="vo">
         <li>
-          <a href="/Cart/add?id={$vo.id}">
+          <a href="/cart/add?id={$vo.id}">
             <img class="am-img-thumbnail am-img-bdrs" src="{$vo.pic}" alt="{$vo.name}"/>
             <div class="gallery-title">{$vo.name}</div>
             <div class="gallery-desc">价格：{$vo.price}元/{$vo.unit}</div>
@@ -17,6 +19,7 @@
         </li>
       </volist>
     </ul>
+
     <!--
     <div class="am-margin am-cf">
       <hr/>
@@ -32,6 +35,8 @@
       </ol>
     </div>
     -->
+
   </div>
   <!-- content end -->
+
 <include file="Template:foot" />

@@ -1,7 +1,7 @@
 <?php
 namespace Home\Controller;
 use Think\Controller;
-class IndexController extends Controller {
+class CategoryController extends Controller {
 	private function userInit(){
 		$wxid = I('get.wxid');
 		$wxid = $wxid==""?I('cookie.wxid'):$wxid;
@@ -28,18 +28,7 @@ class IndexController extends Controller {
 		$this->assign('categoryList',$selectCategory);
 		return $selectCategory;
 	}
-
 	public function index(){
-		$this->categoryInit();
-		$currentUser=$this->userInit();
-		$userName=$currentUser['name'];
-
-		$item=M('item');
-		$selectItem=$item->select();
-		$this->assign('itemList',$selectItem);
-	    $this->display();
-	}
-	public function category(){
 		$this->categoryInit();
 		$currentUser=$this->userInit();
 		if(I('get.id')=="")
