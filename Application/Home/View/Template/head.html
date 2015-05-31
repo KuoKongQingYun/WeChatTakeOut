@@ -80,7 +80,7 @@
                 <div class="am-offcanvas-bar admin-offcanvas-bar">
                     <ul class="am-list admin-sidebar-list">
                         <li>
-                            <a href="/Index">
+                            <a href="__ROOT__/Index">
                                 <span class="am-icon-home">
                                 </span>
                                 首页
@@ -88,7 +88,7 @@
                         </li>
                         <volist name="categoryList" id="vo">
                             <li>
-                                <a href="/Category?id={$vo.id}">
+                                <a href="__ROOT__/Category?id={$vo.id}">
                                     <span class="am-icon-tag">
                                     </span>
                                     {$vo.name}
@@ -96,14 +96,14 @@
                             </li>
                         </volist>
                         <li>
-                            <a href="/Cart">
+                            <a href="__ROOT__/Cart">
                                 <span class="am-icon-sign-out">
                                 </span>
                                 购物车
                             </a>
                         </li>
                         <li>
-                            <a href="/User">
+                            <a href="__ROOT__/User">
                                 <span class="am-icon-user">
                                 </span>
                                 个人资料

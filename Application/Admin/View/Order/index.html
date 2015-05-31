@@ -1,0 +1,29 @@
+<include file="Template:head" />
+  <!-- content start -->
+  <div class="admin-content">
+
+    <div class="am-cf am-padding">
+      <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">订单管理</strong></div>
+    </div>
+     <div class="am-g">
+      <div class="am-u-sm-12">
+        <table class="am-table am-table-bd am-table-striped admin-content-table">
+          <thead>
+          <tr>
+            <th>ID</th><th>用户名</th><th>电话号码</th><th>联系地址</th><th>订单内容</th><th>管理</th>
+          </tr>
+          </thead>
+          <tbody>
+            <volist name="itemList" id="vo">
+          <tr><td>{$vo.id}</td><td>{$vo.name}</td><td>{$vo.phone}</td> <td>{$vo.address}</td><td>{$vo.content}</td>
+            <td><a href="#">查看订单</a>|<a href="#">编辑订单</a>|<a href="#">删除订单</a></li>
+            </td>
+          </tr>
+          </volist>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <!-- content end -->
+<include file="Template:foot" />
