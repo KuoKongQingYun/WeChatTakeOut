@@ -1,62 +1,62 @@
 <?php
 namespace Admin\Controller;
 use Think\Controller;
-class ItemController extends Controller {
+class CategoryController extends Controller {
 	public function index($backurl='.')
 	{
 		//$currentUser=$this->userInit();
 		
-		$item=M('item');
-		$selectItem=$item->order('id')->select();
+		$Category=M('Category');
+		$selectCategory=$Category->order('id')->select();
 		
 
 		$category=M('category');
-		foreach ($selectItem as &$value) {
+		foreach ($selectCategory as &$value) {
 			$t=$category->where(array('id'=>$value['category']))->find();
 			$value['category_name']=$t['name'];
 		}
-		$this->assign('itemList',$selectItem);
+		$this->assign('CategoryList',$selectCategory);
 		$this->display();
 	}
 	public function del()
 	{
 		//$currentUser=$this->userInit();
-		$item=M('item');
-		$item->where(array('id'=>I('id')))->delete();//删除商品
+		$Category=M('Category');
+		$Category->where(array('id'=>I('id')))->delete();//删除商品
 		
-		$selectItem=$item->order('id')->select();
+		$selectCategory=$Category->order('id')->select();
 
 		$category=M('category');
-		foreach ($selectItem as &$value) {
+		foreach ($selectCategory as &$value) {
 			$t=$category->where(array('id'=>$value['category']))->find();
 			$value['category_name']=$t['name'];
 		}
-		$this->assign('itemList',$selectItem);
+		$this->assign('CategoryList',$selectCategory);
 		$this->display('index');
 	}
 	public function edit()
 	{
 		//$currentUser=$this->userInit();
-		$item=M('item');
-		$currentItem=$item->where(array('id'=>I('id')))->find();
+		$Category=M('Category');
+		$currentCategory=$Category->where(array('id'=>I('id')))->find();
 
 		$category=M('category');
 		$selectCategory=$category->order('id')->select();
 		
 		$this->assign('categoryList',$selectCategory);
-		$this->assign('id',$currentItem['id']);
-		$this->assign('name',$currentItem['name']);
-		$this->assign('category',$currentItem['category']);
-		$this->assign('price',$currentItem['price']);
-		$this->assign('unit',$currentItem['unit']);
+		$this->assign('id',$currentCategory['id']);
+		$this->assign('name',$currentCategory['name']);
+		$this->assign('category',$currentCategory['category']);
+		$this->assign('price',$currentCategory['price']);
+		$this->assign('unit',$currentCategory['unit']);
 		$this->display();
 	}
 	public function save()
 	{
 		//$currentUser=$this->userInit();
 		
-		$item=D('item');
-		$currentItem=$item->where(array('id'=>I('id')))->find();
+		$Category=D('Category');
+		$currentCategory=$Category->where(array('id'=>I('id')))->find();
 		$data=array(
 			'id'=>I('id'),
 			'name' =>I('name'),
@@ -71,15 +71,15 @@ class ItemController extends Controller {
 			$upload->exts=array('jpg', 'gif', 'png', 'jpeg','bmp');// 设置附件上传类型
 			$upload->rootPath=I('server.DOCUMENT_ROOT').constant("__ROOT__").'/Upload/';
 			$info = $upload->uploadone($_FILES['pic']);
-			unlink(I('server.DOCUMENT_ROOT').constant("__ROOT__").$currentItem['pic']);
+			unlink(I('server.DOCUMENT_ROOT').constant("__ROOT__").$currentCategory['pic']);
 			$data['pic']='/'.constant("__ROOT__").'Upload/'.$info['savepath'].$info['savename'];
 		}
 		else 
 		{
 
 		}
-		$item->create($data);
-		$item->save();
+		$Category->create($data);
+		$Category->save();
 
 		$this->redirect('index');
 	}
@@ -92,8 +92,8 @@ class ItemController extends Controller {
 			$upload->exts=array('jpg', 'gif', 'png', 'jpeg','bmp');// 设置附件上传类型
 			$upload->rootPath=I('server.DOCUMENT_ROOT').constant("__ROOT__").'/Upload/';
 			$info = $upload->uploadone($_FILES['pic']);
-			$item=D('item');
-			$item->create(array(
+			$Category=D('Category');
+			$Category->create(array(
 				'name' =>I('name'),
 				'category' =>I('category') ,
 				'price' =>I('price'),
@@ -101,7 +101,7 @@ class ItemController extends Controller {
 				'time'=>date('Y-m-d H:i:s',time()),
 				'pic'=>'/'.constant("__ROOT__").'Upload/'.$info['savepath'].$info['savename']
 				));
-			$item->add();
+			$Category->add();
 			$this->redirect('index');
 		}
 		else 

@@ -22,6 +22,9 @@ define('APP_PATH','./Application/');
 
 define('BIND_MODULE','Admin');
 
+//定义根目录
+define('__ROOT__',"");
+
 // 引入ThinkPHP入口文件
 require './ThinkPHP/ThinkPHP.php';
 

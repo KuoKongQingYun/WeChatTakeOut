@@ -3,20 +3,19 @@
 <div class="admin-content">
 
   <div class="am-cf am-padding">
-    <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">修改商品</div>
+    <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">新增商品</div>
   </div>
-  <form id="form" action='save' method="post" enctype="multipart/form-data">
+  <form id="form" method="post" enctype="multipart/form-data">
     <div class="am-tabs am-margin" data-am-tabs>
       <ul class="am-tabs-nav am-nav am-nav-tabs">
         <li class="am-active"><a href="#tab1">基本信息</a></li>
       </ul>
-      <input type="hidden" name="id" value="{$id}">
       <div class="am-tabs-bd">
         <div class="am-tab-panel am-fade am-in am-active" id="tab1">
           <div class="am-g am-margin-top">
             <div class="am-u-sm-4 am-u-md-2 am-text-right">商品名称</div>
             <div class="am-u-sm-8 am-u-md-10">
-              <input type="text" class="am-form-field am-input-sm" name="name" placeholder="商品名称" value="{$name}">
+              <input type="text" class="am-form-field am-input-sm" name="name" placeholder="商品名称">
             </div>
           </div>
 
@@ -25,7 +24,7 @@
             <div class="am-u-sm-8 am-u-md-10">
               <select name='category'>
                 <volist name="categoryList" id="vo">
-                <option value ="{$vo.id}" <if condition="$vo.id eq $category">selected</if>>{$vo.name}</option>
+                <option value ="{$vo.id}">{$vo.name}</option>
               </volist>
               </select>
             </div>
@@ -33,13 +32,13 @@
           <div class="am-g am-margin-top">
             <div class="am-u-sm-4 am-u-md-2 am-text-right">价格</div>
             <div class="am-u-sm-8 am-u-md-10">
-              <input type="text" class="am-form-field am-input-sm" name="price" placeholder="价格" value="{$price}">
+              <input type="text" class="am-form-field am-input-sm" name="price" placeholder="价格">
             </div>
           </div>
           <div class="am-g am-margin-top">
             <div class="am-u-sm-4 am-u-md-2 am-text-right">单位</div>
             <div class="am-u-sm-8 am-u-md-10">
-              <input type="text" class="am-form-field am-input-sm" name="unit" placeholder="单位" value="{$unit}">
+              <input type="text" class="am-form-field am-input-sm" name="unit" placeholder="单位">
             </div>
           </div>
           <div class="am-g am-margin-top">
