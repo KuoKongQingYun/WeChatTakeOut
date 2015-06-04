@@ -102,7 +102,6 @@ class CartController extends Controller {
 
 		$order=M('order');
 		$resualt=$order->add(array('user_id'=>$currentUser['id'],'content'=>implode(',',$content),'status'=>0));
-		var_dump($resualt);
 		$cart->where(array('user_id'=>$currentUser['id']))->delete();
 		$this->assign('name',$currentUser['name']);
 		$this->assign('phone',$currentUser['phone']);
