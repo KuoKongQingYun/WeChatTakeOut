@@ -52,17 +52,17 @@ class UserController extends Controller {
 				if(IS_POST)
 				{
 					$user->create(array('id'=>$currentUser['id'],'name' =>I('name'),'phone' =>I('phone') ,'address' =>I('address'),'wxid' =>$wxid));
-				$user->save();
-				$this->assign('name',I('name'));
-				$this->assign('phone',I('phone'));
-				$this->assign('address',I('address'));
-				$this->assign('info','保存成功');
+					$user->save();
+					$this->assign('name',I('name'));
+					$this->assign('phone',I('phone'));
+					$this->assign('address',I('address'));
+					$this->assign('info','保存成功');
 				}
 				else 
 				{
 					$this->assign('name',$currentUser['name']);
-				$this->assign('phone',$currentUser['phone']);
-				$this->assign('address',$currentUser['address']);
+					$this->assign('phone',$currentUser['phone']);
+					$this->assign('address',$currentUser['address']);
 				}
 			}
 			$this->display();
