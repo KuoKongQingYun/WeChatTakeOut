@@ -1,0 +1,47 @@
+<include file="Template:head" />
+    <!-- content start -->
+    <div class="admin-content">
+
+      <div class="am-cf am-padding">
+        <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">个人资料</strong> / <small>UserInfo</small></div>
+      </div>
+      <form id="form" method="post">
+        <div class="am-tabs am-margin" data-am-tabs>
+          <ul class="am-tabs-nav am-nav am-nav-tabs">
+            <li class="am-active"><a href="#tab1">基本信息</a></li>
+          </ul>
+
+          <div class="am-tabs-bd">
+            <div class="am-tab-panel am-fade am-in am-active" id="tab1">
+              <div class="am-g am-margin-top">
+                <div class="am-u-sm-4 am-u-md-2 am-text-right">旧密码</div>
+                <div class="am-u-sm-8 am-u-md-10">
+                  <input type="password" class="am-form-field am-input-sm" name="name" value="{$oldpasswd}">
+                </div>
+              </div>
+
+              <div class="am-g am-margin-top">
+                <div class="am-u-sm-4 am-u-md-2 am-text-right">输入新密码</div>
+                <div class="am-u-sm-8 am-u-md-10">
+                  <input type="password" class="am-form-field am-input-sm" name="phone" value="{$newpasswd}">
+                </div>
+              </div>
+
+              <div class="am-g am-margin-top">
+                <div class="am-u-sm-4 am-u-md-2 am-text-right">确认新密码</div>
+                <div class="am-u-sm-8 am-u-md-10">
+                  <input type="password" class="am-form-field am-input-sm" name="address" value="{$newpasswd2}">
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </form>
+      <div class="am-margin">
+        <button type="button" class="am-btn am-btn-primary am-btn-xs" onclick="document.getElementById('form').submit();">提交保存</button><strong class="am-text-warning am-text-lg">{$info}</strong>
+      </div>
+    </div>
+    <!-- content end -->
+<include file="Template:foot" />

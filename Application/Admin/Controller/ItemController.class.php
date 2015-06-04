@@ -2,9 +2,17 @@
 namespace Admin\Controller;
 use Think\Controller;
 class ItemController extends Controller {
-	public function index($backurl='.')
+	private function auth()
 	{
-		//$currentUser=$this->userInit();
+		$admin=M('admin');
+		$currentAdmin=$admin->where(array('id'=>I('cookie.adminID')))->find();
+		if($currentAdmin['auth']=='' || $currentAdmin['auth']!=I('cookie.auth'))
+		{
+			$this->redirect('Login/index');
+		}
+	}
+    public function index(){
+    	$this->auth();
 		
 		$item=M('item');
 		$selectItem=$item->order('id')->select();
@@ -20,7 +28,7 @@ class ItemController extends Controller {
 	}
 	public function del()
 	{
-		//$currentUser=$this->userInit();
+		$this->auth();
 		$item=M('item');
 		$item->where(array('id'=>I('id')))->delete();//删除商品
 		
@@ -36,7 +44,7 @@ class ItemController extends Controller {
 	}
 	public function edit()
 	{
-		//$currentUser=$this->userInit();
+		$this->auth();
 		$item=M('item');
 		$currentItem=$item->where(array('id'=>I('id')))->find();
 
@@ -53,8 +61,7 @@ class ItemController extends Controller {
 	}
 	public function save()
 	{
-		//$currentUser=$this->userInit();
-		
+		$this->auth();
 		$item=D('item');
 		$currentItem=$item->where(array('id'=>I('id')))->find();
 		$data=array(
@@ -74,10 +81,6 @@ class ItemController extends Controller {
 			unlink(I('server.DOCUMENT_ROOT').constant("__ROOT__").$currentItem['pic']);
 			$data['pic']='/'.constant("__ROOT__").'Upload/'.$info['savepath'].$info['savename'];
 		}
-		else 
-		{
-
-		}
 		$item->create($data);
 		$item->save();
 
@@ -85,7 +88,7 @@ class ItemController extends Controller {
 	}
 	public function add()
 	{
-		//$currentUser=$this->userInit();
+		$this->auth();
 		if(IS_POST)
 		{
 			$upload=new \Think\Upload();

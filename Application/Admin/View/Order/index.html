@@ -10,13 +10,13 @@
         <table class="am-table am-table-bd am-table-striped admin-content-table">
           <thead>
           <tr>
-            <th>ID</th><th>用户名</th><th>电话号码</th><th>联系地址</th><th>订单内容</th><th>管理</th>
+            <th>ID</th><th>用户名</th><th>电话号码</th><th>联系地址</th><th>订单内容</th><th>订单状态</th><th>管理</th>
           </tr>
           </thead>
           <tbody>
-            <volist name="itemList" id="vo">
-          <tr><td>{$vo.id}</td><td>{$vo.name}</td><td>{$vo.phone}</td> <td>{$vo.address}</td><td>{$vo.content}</td>
-            <td><a href="#">查看订单</a>|<a href="#">编辑订单</a>|<a href="#">删除订单</a></li>
+            <volist name="orderList" id="vo">
+          <tr><td>{$vo.id}</td><td>{$vo.name}</td><td>{$vo.phone}</td> <td>{$vo.address}</td><td>{$vo.content}</td><td>{$vo.status}</td>
+            <td><a href="__ROOT__/admin.php/Order/view?id={$vo.id}">查看订单</a>|<a href="__ROOT__/Admin.php/Order/del?id={$vo.id}">删除订单</a></li>
             </td>
           </tr>
           </volist>

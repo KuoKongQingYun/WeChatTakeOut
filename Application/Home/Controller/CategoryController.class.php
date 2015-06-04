@@ -16,7 +16,7 @@ class CategoryController extends Controller {
 			$selectUser=$user->where(array("wxid"=>$wxid))->select();
 			if(count($selectUser)==0)
 			{
-				$this->redirect('/Index/user');
+				$this->redirect('User/index');
 			}
 			return $selectUser[0];
 		}
@@ -33,7 +33,7 @@ class CategoryController extends Controller {
 		$currentUser=$this->userInit();
 		if(I('get.id')=="")
 		{
-			$this->redirect('index');
+			$this->redirect('Index/index');
 		}
 		$category=M('category');
 		$currentCategory=$category->where(array('id'=>I('get.id')))->find();

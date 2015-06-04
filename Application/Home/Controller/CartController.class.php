@@ -16,7 +16,7 @@ class CartController extends Controller {
 			$selectUser=$user->where(array("wxid"=>$wxid))->select();
 			if(count($selectUser)==0)
 			{
-				$this->redirect('user');
+				$this->redirect('User/index');
 			}
 			return $selectUser[0];
 		}
@@ -85,21 +85,24 @@ class CartController extends Controller {
 	public function checkout(){
 		$this->categoryInit();
 		$currentUser=$this->userInit();
+
 		$cart=M('cart');
 		$selectCart=$cart->where(array('user_id'=>$currentUser['id']))->select();
+
+		$content=array();
+		$item=M('item');
 		foreach ($selectCart as &$value) {
-			$item=M('item');
 			$findItem = $item->where(array('id'=>$value['item_id']))->find();
 			$value['name'] = $findItem['name'];
+			array_push($content,$findItem['name'] );
 			$value['price'] = $findItem['price'];
 			$value['unit'] = $findItem['unit'];
 		}
 		$this->assign('itemList',$selectCart);
 
-		//
-		//保存订单
-		//
-
+		$order=M('order');
+		$resualt=$order->add(array('user_id'=>$currentUser['id'],'content'=>implode(',',$content),'status'=>0));
+		var_dump($resualt);
 		$cart->where(array('user_id'=>$currentUser['id']))->delete();
 		$this->assign('name',$currentUser['name']);
 		$this->assign('phone',$currentUser['phone']);

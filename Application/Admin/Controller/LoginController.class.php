@@ -2,21 +2,26 @@
 namespace Admin\Controller;
 use Think\Controller;
 class LoginController extends Controller {
-	public function index($backurl='.')
+	public function index()
 	{
-		$this->show();
+		$this->display();
 	}
-
 	public function dologin()
 	{
-		$Admin = D('Admin');
-		if (!$Admin->create())
+		$admin = D('admin');
+		$currentAdmin = $admin->where(array('username'=>I('username'),'password'=>md5(md5(I('password')))))->find();
+		if(!is_null($currentAdmin))
 		{
-			$this->error($Admin->getError());
+			cookie('adminID',$currentAdmin['id']);
+			$string=new \Org\Util\String();
+			$randString=$string->buildFormatRand('****************');
+			cookie('auth',md5($randString));
+			$admin->where(array('id'=>$currentAdmin['id']))->field('auth')->save(array('auth'=>md5($randString)));
+			$this->redirect('Index/index');
 		}
-		else{
-			$this->success("123",U("Index/index"));
-			//$this->success('新增成功', 'Index/Index');
+		else
+		{
+			$this->redirect('index');
 		}
 	}
 }

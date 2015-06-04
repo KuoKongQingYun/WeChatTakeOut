@@ -16,7 +16,7 @@ class UserController extends Controller {
 			$selectUser=$user->where(array("wxid"=>$wxid))->select();
 			if(count($selectUser)==0)
 			{
-				$this->redirect('/Index/user');
+				$this->redirect('User/index');
 			}
 			return $selectUser[0];
 		}

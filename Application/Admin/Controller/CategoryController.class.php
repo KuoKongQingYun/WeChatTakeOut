@@ -2,43 +2,43 @@
 namespace Admin\Controller;
 use Think\Controller;
 class CategoryController extends Controller {
-	public function index($backurl='.')
+	private function auth()
 	{
-		//$currentUser=$this->userInit();
-		
-		$Category=M('Category');
-		$selectCategory=$Category->order('id')->select();
-		
-
-		$category=M('category');
-		foreach ($selectCategory as &$value) {
-			$t=$category->where(array('id'=>$value['category']))->find();
-			$value['category_name']=$t['name'];
+		$admin=M('admin');
+		$currentAdmin=$admin->where(array('id'=>I('cookie.adminID')))->find();
+		if($currentAdmin['auth']=='' || $currentAdmin['auth']!=I('cookie.auth'))
+		{
+			$this->redirect('Login/index');
 		}
-		$this->assign('CategoryList',$selectCategory);
+	}
+    public function index(){
+    	$this->auth();
+		
+		$category=M('category');
+		$selectCategory=$category->order('id')->select();
+		
+		$this->assign('categoryList',$selectCategory);
 		$this->display();
 	}
 	public function del()
 	{
-		//$currentUser=$this->userInit();
-		$Category=M('Category');
-		$Category->where(array('id'=>I('id')))->delete();//删除商品
-		
-		$selectCategory=$Category->order('id')->select();
+		$this->auth();
 
 		$category=M('category');
-		foreach ($selectCategory as &$value) {
-			$t=$category->where(array('id'=>$value['category']))->find();
-			$value['category_name']=$t['name'];
-		}
-		$this->assign('CategoryList',$selectCategory);
-		$this->display('index');
+		$category->where(array('id'=>I('id')))->delete();//删除栏目
+		
+		$selectCategory=$category->order('id')->select();
+
+		$item=M('item');
+		$item->where(array('category'=>I('id')))->field('category')->save(array('category'=>'0'));//将删除分类的商品分类设置为未分组
+		$this->redirect('index');
 	}
 	public function edit()
 	{
-		//$currentUser=$this->userInit();
-		$Category=M('Category');
-		$currentCategory=$Category->where(array('id'=>I('id')))->find();
+		$this->auth();
+
+		$category=M('category');
+		$currentCategory=$category->where(array('id'=>I('id')))->find();
 
 		$category=M('category');
 		$selectCategory=$category->order('id')->select();
@@ -46,17 +46,14 @@ class CategoryController extends Controller {
 		$this->assign('categoryList',$selectCategory);
 		$this->assign('id',$currentCategory['id']);
 		$this->assign('name',$currentCategory['name']);
-		$this->assign('category',$currentCategory['category']);
-		$this->assign('price',$currentCategory['price']);
-		$this->assign('unit',$currentCategory['unit']);
 		$this->display();
 	}
 	public function save()
 	{
-		//$currentUser=$this->userInit();
+		$this->auth();
 		
-		$Category=D('Category');
-		$currentCategory=$Category->where(array('id'=>I('id')))->find();
+		$category=D('category');
+		$currentCategory=$category->where(array('id'=>I('id')))->find();
 		$data=array(
 			'id'=>I('id'),
 			'name' =>I('name'),
@@ -65,19 +62,6 @@ class CategoryController extends Controller {
 			'unit' =>I('unit'),
 			'time'=>date('Y-m-d H:i:s',time())
 			);
-		var_dump(!empty($_FILES['pic']));
-		if(isset($_FILES['pic']) && !empty($_FILES['pic']['name'])){
-			$upload=new \Think\Upload();
-			$upload->exts=array('jpg', 'gif', 'png', 'jpeg','bmp');// 设置附件上传类型
-			$upload->rootPath=I('server.DOCUMENT_ROOT').constant("__ROOT__").'/Upload/';
-			$info = $upload->uploadone($_FILES['pic']);
-			unlink(I('server.DOCUMENT_ROOT').constant("__ROOT__").$currentCategory['pic']);
-			$data['pic']='/'.constant("__ROOT__").'Upload/'.$info['savepath'].$info['savename'];
-		}
-		else 
-		{
-
-		}
 		$Category->create($data);
 		$Category->save();
 
@@ -85,21 +69,13 @@ class CategoryController extends Controller {
 	}
 	public function add()
 	{
-		//$currentUser=$this->userInit();
+		$this->auth();
+
 		if(IS_POST)
 		{
-			$upload=new \Think\Upload();
-			$upload->exts=array('jpg', 'gif', 'png', 'jpeg','bmp');// 设置附件上传类型
-			$upload->rootPath=I('server.DOCUMENT_ROOT').constant("__ROOT__").'/Upload/';
-			$info = $upload->uploadone($_FILES['pic']);
 			$Category=D('Category');
 			$Category->create(array(
 				'name' =>I('name'),
-				'category' =>I('category') ,
-				'price' =>I('price'),
-				'unit' =>I('unit'),
-				'time'=>date('Y-m-d H:i:s',time()),
-				'pic'=>'/'.constant("__ROOT__").'Upload/'.$info['savepath'].$info['savename']
 				));
 			$Category->add();
 			$this->redirect('index');
